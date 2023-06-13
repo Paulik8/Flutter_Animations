@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ShowcaseScaffold extends StatelessWidget {
   final String title;
   final Widget body;
+  final bool useSafeArea;
 
   const ShowcaseScaffold(
     this.title, {
     required this.body,
+    this.useSafeArea = true,
     super.key,
   });
 
@@ -16,6 +17,6 @@ class ShowcaseScaffold extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: body,
+        body: useSafeArea ? SafeArea(child: body) : body,
       );
 }

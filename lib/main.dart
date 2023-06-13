@@ -1,11 +1,14 @@
 import 'package:animations/duration_data.dart';
+import 'package:animations/main_page.dart';
 import 'package:flutter/material.dart';
 
-import 'cards_showcase.dart';
-import 'cards_showcase_new.dart';
-import 'simple_transitions_showcase.dart';
-import 'tween_sequence_showcase.dart';
-import 'waves_showcase.dart';
+import 'showcases/cards_showcase_1.dart';
+import 'showcases/waves_showcase_2.dart';
+import 'showcases/cards_gradient_showcase_3.dart';
+import 'showcases/simple_transitions_showcase_4.dart';
+import 'showcases/tween_sequence_showcase_5.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   runApp(const MyApp());
@@ -14,14 +17,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Flutter Demo',
-      home: _ShowcaseApp(),
-    );
-  }
+  Widget build(BuildContext context) => const MaterialApp(
+        title: 'Flutter Demo',
+        home: _ShowcaseApp(),
+      );
 }
 
 class _ShowcaseApp extends StatefulWidget {
@@ -32,62 +32,55 @@ class _ShowcaseApp extends StatefulWidget {
 }
 
 class _ShowcaseAppState extends State<_ShowcaseApp> {
-  late final _map = <String, Widget>{
-    'CardsShowcase': const CardsShowcase(),
-    'SimpleTransitionsShowcase': const SimpleTransitionsShowcase(),
-    'WavesShowcase': const WavesShowcase(),
-    'CardsShowcaseNew': const CardsShowcaseNew(),
-    'TweenSequenceShowcase': const TweenSequenceShowcase(),
-  };
+  double _durationValue = 1000;
+  late Duration _duration = Duration(milliseconds: _durationValue.round());
 
-  @override
-  Widget build(BuildContext context) {
-    return DurationData(
-      duration: const Duration(milliseconds: 2000),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Showcases'),
-        ),
-        body: ListView(
-          children: _map.entries
-              .map(
-                (entry) => _MainItem(
-                  title: entry.key,
-                  child: entry.value,
-                ),
-              )
-              .toList(),
-        ),
-      ),
-    );
-  }
-}
-
-class _MainItem extends StatelessWidget {
-  final String title;
-  final Widget child;
-
-  const _MainItem({
-    required this.title,
-    required this.child,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => push(child, context),
-      child: Container(
-        height: 100,
-        padding: const EdgeInsets.all(16),
-        color: Colors.white12,
-        child: Text(title),
-      ),
-    );
+  Route generatePage(child) {
+    return MaterialPageRoute(builder: (context) => child);
   }
 
-  void push(Widget page, BuildContext context) => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => page),
+  void _changeDuration(double value) {
+    setState(() {
+      _durationValue = value;
+      _duration = Duration(milliseconds: _durationValue.round());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => DurationData(
+        durationValue: _durationValue,
+        duration: _duration,
+        child: Navigator(
+            key: navigatorKey,
+            initialRoute: 'main',
+            onGenerateRoute: (settings) {
+              switch (settings.name) {
+                case 'main':
+                  return generatePage(
+                    MainPage(onSliderChanged: _changeDuration),
+                  );
+                case 'CardsShowcase':
+                  return generatePage(
+                    const CardsShowcase(),
+                  );
+                case 'CardsGradientShowcase':
+                  return generatePage(
+                    const CardsGradientShowcase(),
+                  );
+                case 'WavesShowcase':
+                  return generatePage(
+                    const WavesShowcase(),
+                  );
+                case 'SimpleTransitionsShowcase':
+                  return generatePage(
+                    const SimpleTransitionsShowcase(),
+                  );
+                case 'TweenSequenceShowcase':
+                  return generatePage(
+                    const TweenSequenceShowcase(),
+                  );
+              }
+              return null;
+            }),
       );
 }

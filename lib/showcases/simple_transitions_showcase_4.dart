@@ -1,7 +1,11 @@
+import 'package:animations/widgets/showcase_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import '../duration_data.dart';
 
 class SimpleTransitionsShowcase extends StatefulWidget {
+  static const title = 'SimpleTransitionsShowcase';
+
   const SimpleTransitionsShowcase({Key? key}) : super(key: key);
 
   @override
@@ -11,7 +15,7 @@ class SimpleTransitionsShowcase extends StatefulWidget {
 
 class _SimpleTransitionsShowcaseState extends State<SimpleTransitionsShowcase>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _animationController;
+  late final _animationController = AnimationController(vsync: this);
   late final Animation<AlignmentGeometry> _alignmentGeometryAnimation;
   late final Animation<double> _scaleTransition;
   late final Animation<Decoration> _borderRadiusAnimation;
@@ -19,10 +23,6 @@ class _SimpleTransitionsShowcaseState extends State<SimpleTransitionsShowcase>
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
     final curvedAnimation = CurvedAnimation(
       parent: _animationController,
       curve: Curves.bounceOut,
@@ -46,43 +46,49 @@ class _SimpleTransitionsShowcaseState extends State<SimpleTransitionsShowcase>
         color: Colors.deepPurple,
         borderRadius: BorderRadius.all(Radius.circular(4.0)),
       ),
-    ).animate(curvedAnimation);
+    ).chain(CurveTween(curve: Curves.bounceOut)).animate(_animationController);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _animationController.duration = DurationData.of(context)?.duration;
     _animationController.repeat();
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: SafeArea(
-  //       child: AlignTransition(
-  //         alignment: _alignmentGeometryAnimation,
-  //         child: ScaleTransition(
-  //           scale: _scaleTransition,
-  //           child: DecoratedBoxTransition(
-  //             decoration: _borderRadiusAnimation,
-  //             child: Container(
-  //               alignment: Alignment.center,
-  //               width: 100,
-  //               height: 100,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  @override
+  Widget build(BuildContext context) => ShowcaseScaffold(
+        SimpleTransitionsShowcase.title,
+        body: AlignTransition(
+          alignment: _alignmentGeometryAnimation,
+          child: ScaleTransition(
+            scale: _scaleTransition,
+            child: DecoratedBoxTransition(
+              decoration: _borderRadiusAnimation,
+              child: Container(
+                alignment: Alignment.center,
+                width: 100,
+                height: 100,
+              ),
+            ),
+          ),
+        ),
+      );
+
+// @override
+// Widget build(BuildContext context) => ShowcaseScaffold(
+//       SimpleTransitionsShowcase.title,
+//       body: CustomTransition(
+//         alignmentGeometryAnimation: _alignmentGeometryAnimation,
+//         scaleTransition: _scaleTransition,
+//         borderRadiusAnimation: _borderRadiusAnimation,
+//       ),
+//     );
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: CustomTransition(
-          alignmentGeometryAnimation: _alignmentGeometryAnimation,
-          scaleTransition: _scaleTransition,
-          borderRadiusAnimation: _borderRadiusAnimation,
-        ),
-      ),
-    );
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }
 
@@ -107,20 +113,18 @@ class CustomTransition extends AnimatedWidget {
         );
 
   @override
-  Widget build(BuildContext context) {
-    return AlignTransition(
-      alignment: alignmentGeometryAnimation,
-      child: ScaleTransition(
-        scale: scaleTransition,
-        child: DecoratedBoxTransition(
-          decoration: borderRadiusAnimation,
-          child: Container(
-            alignment: Alignment.center,
-            width: 100,
-            height: 100,
+  Widget build(BuildContext context) => AlignTransition(
+        alignment: alignmentGeometryAnimation,
+        child: ScaleTransition(
+          scale: scaleTransition,
+          child: DecoratedBoxTransition(
+            decoration: borderRadiusAnimation,
+            child: Container(
+              alignment: Alignment.center,
+              width: 100,
+              height: 100,
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
