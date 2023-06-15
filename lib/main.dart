@@ -2,11 +2,12 @@ import 'package:animations/duration_data.dart';
 import 'package:animations/main_page.dart';
 import 'package:flutter/material.dart';
 
+import 'showcases/base_animation_showcase_3.dart';
 import 'showcases/cards_showcase_1.dart';
 import 'showcases/waves_showcase_2.dart';
-import 'showcases/cards_gradient_showcase_3.dart';
-import 'showcases/simple_transitions_showcase_4.dart';
-import 'showcases/tween_sequence_showcase_5.dart';
+import 'showcases/cards_gradient_showcase_4.dart';
+import 'showcases/simple_transitions_showcase_5.dart';
+import 'showcases/tween_sequence_showcase_6.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -32,7 +33,7 @@ class _ShowcaseApp extends StatefulWidget {
 }
 
 class _ShowcaseAppState extends State<_ShowcaseApp> {
-  double _durationValue = 1000;
+  double _durationValue = 2000;
   late Duration _duration = Duration(milliseconds: _durationValue.round());
 
   Route generatePage(child) {
@@ -70,6 +71,10 @@ class _ShowcaseAppState extends State<_ShowcaseApp> {
                 case 'WavesShowcase':
                   return generatePage(
                     const WavesShowcase(),
+                  );
+                case 'BaseAnimationShowcase':
+                  return generatePage(
+                    const BaseAnimationShowcase(),
                   );
                 case 'SimpleTransitionsShowcase':
                   return generatePage(

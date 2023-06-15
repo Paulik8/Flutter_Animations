@@ -16,7 +16,6 @@ class _TweenSequenceShowcaseState extends State<TweenSequenceShowcase>
     with SingleTickerProviderStateMixin {
   final _itemCount = 6;
   final _animations = <Animation<double>>[];
-  final _tweenAnimations = <Animation<Decoration>>[];
   late final TweenSequence<Decoration> _decorationTweenSequence;
   late final AnimationController _controller = AnimationController(vsync: this);
 
@@ -30,7 +29,6 @@ class _TweenSequenceShowcaseState extends State<TweenSequenceShowcase>
         parent: _controller,
         curve: Interval(i * step, (i + 1) * step),
       );
-      _tweenAnimations.add(_decorationTweenSequence.animate(curvedAnimation));
       _animations.add(curvedAnimation);
     }
   }
@@ -68,7 +66,7 @@ class _TweenSequenceShowcaseState extends State<TweenSequenceShowcase>
                             height: 100.0,
                             width: Tween(begin: 70.0, end: maxWidth)
                                 .evaluate(_animations[index]),
-                            decoration: _tweenAnimations[index].value,
+                            decoration: _decorationTweenSequence.evaluate(_animations[index]),
                           ),
                         ),
                       );

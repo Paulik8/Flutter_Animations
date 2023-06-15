@@ -18,7 +18,6 @@ class _WavesShowcaseState extends State<WavesShowcase>
     with SingleTickerProviderStateMixin {
   late final _controller = AnimationController(
     vsync: this,
-    duration: Duration.zero,
   );
 
   @override
@@ -28,47 +27,43 @@ class _WavesShowcaseState extends State<WavesShowcase>
     _controller.repeat();
   }
 
+  // @override
+  // Widget build(BuildContext context) => ShowcaseScaffold(
+  //       WavesShowcase.title,
+  //       useSafeArea: false,
+  //       body: Align(
+  //         alignment: Alignment.bottomCenter,
+  //         child: AnimatedBuilder(
+  //           animation: _controller,
+  //           builder: (BuildContext context, Widget? child) {
+  //             return CustomPaint(
+  //               size: const Size(double.infinity, 400),
+  //               painter: _WavePainter(
+  //                 animationValue: _controller.value,
+  //                 waveColor: Colors.blue,
+  //               ),
+  //             );
+  //           },
+  //         ),
+  //       ),
+  //     );
+
   @override
   Widget build(BuildContext context) => ShowcaseScaffold(
         WavesShowcase.title,
         useSafeArea: false,
-        body:
-            Align(
+        body: Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
-            color: Colors.green,
-            child: AnimatedBuilder(
+          child: CustomPaint(
+            size: const Size(double.infinity, 400),
+            painter: _WavePainter(
               animation: _controller,
-              builder: (BuildContext context, Widget? child) {
-                return CustomPaint(
-                  size: const Size(double.infinity, 800),
-                  painter: _WavePainter(
-                    animationValue: _controller.value,
-                    boxHeight: 200,
-                    waveColor: Colors.blue,
-                  ),
-                );
-              },
+              // animationValue: _controller.value,
+              waveColor: Colors.blue,
             ),
           ),
         ),
       );
-
-  // @override
-  // Widget build(BuildContext context) => ShowcaseScaffold(
-  //       WavesShowcase.title,
-  //       body: SizedBox(
-  //         height: 500,
-  //         width: 500,
-  //         child: CustomPaint(
-  //           painter: _WavePainter(
-  //             animation: _controller,
-  //             boxHeight: 300,
-  //             waveColor: Colors.blue,
-  //           ),
-  //         ),
-  //       ),
-  //     );
 
   @override
   void dispose() {
@@ -80,43 +75,29 @@ class _WavesShowcaseState extends State<WavesShowcase>
 class _WavePainter extends CustomPainter {
   static const _pi2 = 2 * pi;
 
-  final double boxHeight;
   final Color waveColor;
 
-  final double animationValue;
+  // final double animationValue;
 
-  // final Animation<double> animation;
+  final Animation<double> animation;
 
   _WavePainter({
-    required this.animationValue,
-    required this.boxHeight,
+    // required this.animationValue,
     required this.waveColor,
-    // required this.animation,
-  });
-
-  // : super(repaint: animation);
+    required this.animation,
+  }) : super(repaint: animation);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final baseHeight = boxHeight;
-
     final width = size.width;
-    final height = size.height - 100;
+    final height = size.height;
     final path = Path();
-    // path.moveTo(0.0, height);
     for (var i = 0.0; i < width; i++) {
-      path.lineTo(i, 0 - sin(_pi2 * (i / width + animationValue)) * 6);
+      path.lineTo(i, 0.0 - sin(_pi2 * (i / width + animation.value)) * 6);
     }
 
     path.lineTo(width, height);
     path.lineTo(0.0, height);
-    // path.moveTo(0.0, baseHeight);
-    // for (var i = 0.0; i < width; i++) {
-    //   path.lineTo(i, baseHeight + sin(_pi2 * (i / width + animationValue)) * 6);
-    // }
-    //
-    // path.lineTo(width, height);
-    // path.lineTo(0.0, height);
     path.close();
     final wavePaint = Paint()..color = waveColor;
     canvas.drawPath(path, wavePaint);

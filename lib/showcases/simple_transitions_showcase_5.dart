@@ -56,34 +56,34 @@ class _SimpleTransitionsShowcaseState extends State<SimpleTransitionsShowcase>
     _animationController.repeat();
   }
 
-  @override
-  Widget build(BuildContext context) => ShowcaseScaffold(
-        SimpleTransitionsShowcase.title,
-        body: AlignTransition(
-          alignment: _alignmentGeometryAnimation,
-          child: ScaleTransition(
-            scale: _scaleTransition,
-            child: DecoratedBoxTransition(
-              decoration: _borderRadiusAnimation,
-              child: Container(
-                alignment: Alignment.center,
-                width: 100,
-                height: 100,
-              ),
-            ),
-          ),
-        ),
-      );
+  // @override
+  // Widget build(BuildContext context) => ShowcaseScaffold(
+  //       SimpleTransitionsShowcase.title,
+  //       body: AlignTransition(
+  //         alignment: _alignmentGeometryAnimation,
+  //         child: ScaleTransition(
+  //           scale: _scaleTransition,
+  //           child: DecoratedBoxTransition(
+  //             decoration: _borderRadiusAnimation,
+  //             child: Container(
+  //               alignment: Alignment.center,
+  //               width: 100,
+  //               height: 100,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     );
 
-// @override
-// Widget build(BuildContext context) => ShowcaseScaffold(
-//       SimpleTransitionsShowcase.title,
-//       body: CustomTransition(
-//         alignmentGeometryAnimation: _alignmentGeometryAnimation,
-//         scaleTransition: _scaleTransition,
-//         borderRadiusAnimation: _borderRadiusAnimation,
-//       ),
-//     );
+@override
+Widget build(BuildContext context) => ShowcaseScaffold(
+      SimpleTransitionsShowcase.title,
+      body: CustomTransition(
+        alignmentGeometryAnimation: _alignmentGeometryAnimation,
+        scaleTransition: _scaleTransition,
+        borderRadiusAnimation: _borderRadiusAnimation,
+      ),
+    );
 
   @override
   void dispose() {
