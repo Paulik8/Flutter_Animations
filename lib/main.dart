@@ -2,11 +2,11 @@ import 'package:animations/duration_data.dart';
 import 'package:animations/main_page.dart';
 import 'package:flutter/material.dart';
 
-import 'showcases/base_animation_showcase_3.dart';
 import 'showcases/cards_showcase_1.dart';
-import 'showcases/waves_showcase_2.dart';
-import 'showcases/cards_gradient_showcase_4.dart';
-import 'showcases/simple_transitions_showcase_5.dart';
+import 'showcases/base_animation_showcase_2.dart';
+import 'showcases/simple_transitions_showcase_3.dart';
+import 'showcases/waves_showcase_4.dart';
+import 'showcases/cards_gradient_showcase_5.dart';
 import 'showcases/tween_sequence_showcase_6.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Flutter Animations',
         home: _ShowcaseApp(),
       );
 }

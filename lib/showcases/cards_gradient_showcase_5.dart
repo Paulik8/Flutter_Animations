@@ -69,7 +69,7 @@ class _AnimatedCardNewState extends State<AnimatedCardNew>
       child: AnimatedBuilder(
         animation: _controller,
         builder: (_, __) => Container(
-          height: Tween(begin: _expandedHeight, end: _expandedHeight)
+          height: Tween(begin: _collapsedHeight, end: _expandedHeight)
               .evaluate(_controller),
           decoration: DecorationTween(
             begin: BoxDecoration(
@@ -101,27 +101,27 @@ class _AnimatedCardNewState extends State<AnimatedCardNew>
                   ],
                 ),
                 const SizedBox(height: 12),
-                // Expanded(
-                //   child: Opacity(
-                //     opacity: Tween(begin: 0.0, end: 1.0).evaluate(_controller),
-                //     child: const Text(placeholderText),
-                //   ),
-                // ),
                 Expanded(
-                  child: ShaderMask(
-                    blendMode: BlendMode.srcIn,
-                    shaderCallback: (bounds) =>
-                        GradientTween().evaluate(_controller).createShader(
-                              Rect.fromLTWH(
-                                0,
-                                0,
-                                bounds.width,
-                                bounds.height,
-                              ),
-                            ),
+                  child: Opacity(
+                    opacity: Tween(begin: 0.0, end: 1.0).evaluate(_controller),
                     child: const Text(placeholderText),
                   ),
                 ),
+                // Expanded(
+                //   child: ShaderMask(
+                //     blendMode: BlendMode.srcIn,
+                //     shaderCallback: (bounds) =>
+                //         GradientTween().evaluate(_controller).createShader(
+                //               Rect.fromLTWH(
+                //                 0,
+                //                 0,
+                //                 bounds.width,
+                //                 bounds.height,
+                //               ),
+                //             ),
+                //     child: const Text(placeholderText),
+                //   ),
+                // ),
               ],
             ),
           ),

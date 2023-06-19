@@ -27,43 +27,43 @@ class _WavesShowcaseState extends State<WavesShowcase>
     _controller.repeat();
   }
 
-  // @override
-  // Widget build(BuildContext context) => ShowcaseScaffold(
-  //       WavesShowcase.title,
-  //       useSafeArea: false,
-  //       body: Align(
-  //         alignment: Alignment.bottomCenter,
-  //         child: AnimatedBuilder(
-  //           animation: _controller,
-  //           builder: (BuildContext context, Widget? child) {
-  //             return CustomPaint(
-  //               size: const Size(double.infinity, 400),
-  //               painter: _WavePainter(
-  //                 animationValue: _controller.value,
-  //                 waveColor: Colors.blue,
-  //               ),
-  //             );
-  //           },
-  //         ),
-  //       ),
-  //     );
-
   @override
   Widget build(BuildContext context) => ShowcaseScaffold(
         WavesShowcase.title,
         useSafeArea: false,
         body: Align(
           alignment: Alignment.bottomCenter,
-          child: CustomPaint(
-            size: const Size(double.infinity, 400),
-            painter: _WavePainter(
-              animation: _controller,
-              // animationValue: _controller.value,
-              waveColor: Colors.blue,
-            ),
+          child: AnimatedBuilder(
+            animation: _controller,
+            builder: (BuildContext context, Widget? child) {
+              return CustomPaint(
+                size: const Size(double.infinity, 400),
+                painter: _WavePainter(
+                  animationValue: _controller.value,
+                  waveColor: Colors.blue,
+                ),
+              );
+            },
           ),
         ),
       );
+
+  // @override
+  // Widget build(BuildContext context) => ShowcaseScaffold(
+  //       WavesShowcase.title,
+  //       useSafeArea: false,
+  //       body: Align(
+  //         alignment: Alignment.bottomCenter,
+  //         child: CustomPaint(
+  //           size: const Size(double.infinity, 400),
+  //           painter: _WavePainter(
+  //             animation: _controller,
+  //             // animationValue: _controller.value,
+  //             waveColor: Colors.blue,
+  //           ),
+  //         ),
+  //       ),
+  //     );
 
   @override
   void dispose() {
@@ -77,15 +77,17 @@ class _WavePainter extends CustomPainter {
 
   final Color waveColor;
 
-  // final double animationValue;
+  final double animationValue;
 
-  final Animation<double> animation;
+  // final Animation<double> animation;
 
   _WavePainter({
-    // required this.animationValue,
+    required this.animationValue,
     required this.waveColor,
-    required this.animation,
-  }) : super(repaint: animation);
+    // required this.animation,
+  });
+
+  // : super(repaint: animation);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -93,7 +95,7 @@ class _WavePainter extends CustomPainter {
     final height = size.height;
     final path = Path();
     for (var i = 0.0; i < width; i++) {
-      path.lineTo(i, 0.0 - sin(_pi2 * (i / width + animation.value)) * 6);
+      path.lineTo(i, 0.0 - sin(_pi2 * (i / width + animationValue)) * 6);
     }
 
     path.lineTo(width, height);

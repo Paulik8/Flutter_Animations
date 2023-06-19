@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'duration_data.dart';
 import 'main.dart';
-import 'showcases/base_animation_showcase_3.dart';
 import 'showcases/cards_showcase_1.dart';
-import 'showcases/waves_showcase_2.dart';
-import 'showcases/cards_gradient_showcase_4.dart';
-import 'showcases/simple_transitions_showcase_5.dart';
+import 'showcases/base_animation_showcase_2.dart';
+import 'showcases/simple_transitions_showcase_3.dart';
+import 'showcases/waves_showcase_4.dart';
+import 'showcases/cards_gradient_showcase_5.dart';
 import 'showcases/tween_sequence_showcase_6.dart';
 
 class MainPage extends StatelessWidget {
   static const _map = <String, Widget>{
     CardsShowcase.title: CardsShowcase(),
-    WavesShowcase.title: WavesShowcase(),
     BaseAnimationShowcase.title: BaseAnimationShowcase(),
     SimpleTransitionsShowcase.title: SimpleTransitionsShowcase(),
+    WavesShowcase.title: WavesShowcase(),
     CardsGradientShowcase.title: CardsGradientShowcase(),
     TweenSequenceShowcase.title: TweenSequenceShowcase(),
   };
