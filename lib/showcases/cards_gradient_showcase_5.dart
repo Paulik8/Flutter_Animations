@@ -167,7 +167,7 @@ class GradientTween extends Tween<LinearGradient> {
     return LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      stops: [t, t + (1.0 - t) / 2, 1.0],
+      stops: [t / 4, t / 2, 1.0],
       colors: const [
         Colors.black,
         Colors.black,

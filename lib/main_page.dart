@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 import 'duration_data.dart';
 import 'main.dart';
 import 'showcases/cards_showcase_1.dart';
@@ -41,8 +42,9 @@ class MainPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ..._map.entries
-                .map(
-                  (entry) => _MainItem(
+                .mapIndexed(
+                  (index, entry) => _MainItem(
+                    index: index + 1,
                     title: entry.key,
                     onTap: () => pushShowcase(entry.key),
                   ),
@@ -54,16 +56,24 @@ class MainPage extends StatelessWidget {
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          height: kBottomNavigationBarHeight,
-          child: Slider(
-            max: 4000,
-            activeColor: Colors.green,
-            inactiveColor: Colors.purple,
-            thumbColor: Colors.black,
-            label: durationValue.round().toString(),
-            divisions: 40,
-            value: durationValue,
-            onChanged: onSliderChanged,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Duration: ${durationValue.round()} ms',
+                style: const TextStyle(fontSize: 18),
+              ),
+              Slider(
+                max: 4000,
+                activeColor: Colors.green,
+                inactiveColor: Colors.purple,
+                thumbColor: Colors.black,
+                // label: durationValue.round().toString(),
+                divisions: 40,
+                value: durationValue,
+                onChanged: onSliderChanged,
+              ),
+            ],
           ),
         ),
       ),
@@ -74,8 +84,10 @@ class MainPage extends StatelessWidget {
 class _MainItem extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
+  final int index;
 
   const _MainItem({
+    required this.index,
     required this.title,
     required this.onTap,
   });
@@ -90,7 +102,36 @@ class _MainItem extends StatelessWidget {
             border: Border(bottom: BorderSide()),
           ),
           padding: const EdgeInsets.all(16),
-          child: Text(title),
+          child: Row(
+            children: [
+              Container(
+                height: 35,
+                width: 35,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(40),
+                  ),
+                ),
+                child: Text(
+                  index.toString(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  // fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       );
 }

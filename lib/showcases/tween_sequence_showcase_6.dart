@@ -41,44 +41,50 @@ class _TweenSequenceShowcaseState extends State<TweenSequenceShowcase>
   }
 
   @override
-  Widget build(BuildContext context) => ShowcaseScaffold(
-        TweenSequenceShowcase.title,
-        body: ListView.builder(
-          itemBuilder: (BuildContext context, int index) {
-            return FadeTransition(
-              opacity: _animations[index],
-              child: SlideTransition(
-                position: Tween(
-                  begin: const Offset(0.0, 1.5),
-                  end: Offset.zero,
-                ).animate(_animations[index]),
-                child: LayoutBuilder(builder:
-                    (BuildContext context, BoxConstraints constraints) {
-                  final maxWidth = constraints.maxWidth;
-                  return AnimatedBuilder(
-                    animation: _animations[index],
-                    builder: (context, _) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 100.0,
-                            width: Tween(begin: 70.0, end: maxWidth)
-                                .evaluate(_animations[index]),
-                            decoration: _decorationTweenSequence.evaluate(_animations[index]),
-                          ),
+  Widget build(BuildContext context) {
+    return ShowcaseScaffold(
+      TweenSequenceShowcase.title,
+      body: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return FadeTransition(
+            opacity: _animations[index],
+            child: SlideTransition(
+              position: Tween(
+                begin: const Offset(0.0, 1.5),
+                end: Offset.zero,
+              ).animate(_animations[index]),
+              child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                final maxWidth = constraints.maxWidth;
+                return AnimatedBuilder(
+                  animation: _animations[index],
+                  builder: (context, _) {
+                    _animations.asMap().forEach((index, animation) {
+                      print('animation $index value = ${animation.value}');
+                    });
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 100.0,
+                          width: Tween(begin: 70.0, end: maxWidth)
+                              .evaluate(_animations[index]),
+                          decoration: _decorationTweenSequence
+                              .evaluate(_animations[index]),
                         ),
-                      );
-                    },
-                  );
-                }),
-              ),
-            );
-          },
-          itemCount: _itemCount,
-        ),
-      );
+                      ),
+                    );
+                  },
+                );
+              }),
+            ),
+          );
+        },
+        itemCount: _itemCount,
+      ),
+    );
+  }
 
   @override
   void dispose() {

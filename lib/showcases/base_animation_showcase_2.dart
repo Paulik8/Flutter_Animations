@@ -32,11 +32,13 @@ class _BaseAnimationShowcaseState extends State<BaseAnimationShowcase>
     );
     _colorTween = _colorTween.chain(_curveTween);
     _scaleAnimation = _curvedAnimation.drive(_scaleTween);
-    // _scaleAnimation = _curvedAnimation.drive(_scaleTween);
     // _scaleTween = _scaleTween.chain(_curveTween);
     // _scaleAnimation = _scaleTween.animate(_curvedAnimation);
     // _scaleAnimation = _curvedAnimation.drive(_scaleTween);
-    _controller.addListener(() => setState(() {}));
+    _controller.addListener(() {
+      print('Animation value: ${_curvedAnimation.value}');
+      setState(() {});
+    });
   }
 
   @override
